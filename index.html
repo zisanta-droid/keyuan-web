@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科源創新 | 首頁</title>
+    <style>
+        :root { --brand-blue: #0056b3; --text-dark: #1a1a1a; --bg-light: #f5f7fa; }
+        body { font-family: "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 0; background: var(--bg-light); }
+        
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 8%; background: #fff; position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .logo { font-size: 24px; font-weight: 800; color: var(--brand-blue); text-decoration: none; }
+        nav { display: flex; align-items: center; gap: 30px; }
+        nav ul { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
+        nav ul li a { text-decoration: none; color: #333; font-weight: 600; font-size: 15px; transition: 0.3s; }
+        nav ul li a:hover { color: var(--brand-blue); }
+
+        .lang-switch { background: var(--brand-blue); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+        .hero {
+            height: 550px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: white; text-align: center;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('istockphoto-1370212104-1024x1024.jpg'); 
+            background-size: cover; background-position: center;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        }
+        .hero h1 { font-size: 4.2rem; margin: 0; font-weight: 800; }
+        .hero p { font-size: 1.5rem; margin-top: 20px; letter-spacing: 2px; }
+
+        .container { max-width: 1100px; margin: 50px auto; padding: 40px; text-align: center; background: #fff; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        footer { background: #101827; color: #94a3b8; padding: 40px; text-align: center; }
+    </style>
+</head>
+<body>
+    <header>
+    <a href="index.html" class="logo">科源創新</a>
+    <nav>
+        <ul>
+            <li><a href="about.html" data-zh="關於我們" data-en="About Us">關於我們</a></li>
+            <li><a href="products.html" data-zh="產品介紹" data-en="Products">產品介紹</a></li>
+            <li><a href="contact.html" data-zh="聯絡我們" data-en="Contact">聯絡我們</a></li>
+        </ul>
+        <button class="lang-switch" onclick="toggleLanguage()" id="langBtn">English</button>
+    </nav>
+    </header>
+
+    <section class="hero">
+        <h1 data-zh="科源創新" data-en="Keyuan Innovation">科源創新</h1>
+        <p data-zh="驅動半導體 IP 的無限可能" data-en="Driving Infinite Possibilities">驅動半導體 IP 的無限可能</p>
+    </section>
+
+    <div class="container">
+        <h2 data-zh="領先全球的 NVM IP 技術" data-en="Global Leading NVM IP">領先全球的 NVM IP 技術</h2>
+        <p data-zh="我們專注於研發具競爭力、高安全性與低功耗的半導體解決方案。" data-en="We focus on developing competitive, secure, and low-power semiconductor solutions.">
+            我們專注於研發具競爭力、高安全性與低功耗的半導體解決方案。
+        </p>
+    </div>
+
+    <footer><span data-zh="© 2026 科源創新 版權所有" data-en="© 2026 Keyuan Innovation.">© 2024 科源創新 版權所有</span></footer>
+
+    <script>
+        let currentLang = localStorage.getItem('preferredLang') || 'zh';
+        function updateContent() {
+            document.querySelectorAll('[data-zh]').forEach(el => el.textContent = el.getAttribute(`data-${currentLang}`));
+            document.getElementById('langBtn').textContent = currentLang === 'zh' ? 'English' : '中文';
+        }
+        function toggleLanguage() { currentLang = currentLang === 'zh' ? 'en' : 'zh'; localStorage.setItem('preferredLang', currentLang); updateContent(); }
+        window.onload = updateContent;
+    </script>
+</body>
+</html>
