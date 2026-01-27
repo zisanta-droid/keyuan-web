@@ -5,73 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>科源創新 | Keyuan Innovation</title>
     <style>
-        :root { --brand-blue: #0056b3; --text-dark: #1a1a1a; --bg-light: #f5f7fa; }
+        :root { --brand-blue: #0056b3; --text-dark: #1a1a1a; --bg-light: #f5f7fa; --menu-dark: #333; }
         body { font-family: "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 0; background: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
         
-        /* --- Header & Navigation --- */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 8%; background: #fff; position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        /* --- Header --- */
+        header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 8%; background: #fff; position: sticky; top: 0; 
+            z-index: 1000; /* Header 層級 */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
         }
-        .logo { font-size: 24px; font-weight: 800; color: var(--brand-blue); text-decoration: none; z-index: 1002; }
+        .logo { font-size: 24px; font-weight: 800; color: var(--brand-blue); text-decoration: none; }
         
         nav { display: flex; align-items: center; gap: 30px; }
         nav ul { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
-        nav ul li a { text-decoration: none; color: #333; font-weight: 600; font-size: 15px; transition: 0.3s; }
-        nav ul li a:hover { color: var(--brand-blue); }
+        nav ul li a { text-decoration: none; color: #333; font-weight: 600; font-size: 15px; }
+        .lang-switch { background: var(--brand-blue); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-        .lang-switch { background: var(--brand-blue); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; z-index: 1002; }
-
-        /* --- 漢堡選單按鈕 (預設隱藏) --- */
-        .menu-toggle {
-            display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 10px; z-index: 1002;
+        /* --- 漢堡按鈕 (確保點擊時在最上層) --- */
+        .menu-toggle { 
+            display: none; flex-direction: column; gap: 5px; cursor: pointer; 
+            background: none; border: none; padding: 10px; 
+            z-index: 2000; /* 高於側邊選單 */
         }
         .menu-toggle span { width: 25px; height: 3px; background-color: var(--brand-blue); transition: 0.3s; }
 
-        /* --- Hero Section --- */
-        .hero {
-            height: 60vh; min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: white; text-align: center;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url('istockphoto-1370212104-1024x1024.jpg'); 
-            background-size: cover; background-position: center; text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        /* --- 手機選單內部的 MENU Logo 提示 --- */
+        .menu-header { 
+            display: none; width: 100%; padding-bottom: 20px; margin-bottom: 30px; 
+            border-bottom: 1px solid #555; font-size: 22px; font-weight: 800; 
+            color: #fff; letter-spacing: 2px; 
         }
-        .hero h1 { font-size: 4rem; margin: 0; font-weight: 800; padding: 0 20px; }
-        .hero p { font-size: 1.5rem; margin-top: 20px; letter-spacing: 2px; padding: 0 20px; }
 
-        .container { max-width: 1100px; margin: -40px auto 80px; padding: 60px 40px; background: #fff; border-radius: 8px; box-shadow: 0 15px 50px rgba(0,0,0,0.1); position: relative; text-align: center; }
-        
+        /* --- Hero & Container --- */
+        .hero { height: 60vh; min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url('istockphoto-1370212104-1024x1024.jpg'); background-size: cover; background-position: center; }
+        .hero h1 { font-size: 4rem; margin: 0; font-weight: 800; }
+        .container { max-width: 1100px; margin: -40px auto 80px; padding: 60px 40px; background: #fff; border-radius: 8px; box-shadow: 0 15px 50px rgba(0,0,0,0.1); text-align: center; }
         footer { background: #101827; color: #94a3b8; padding: 40px 8%; text-align: center; }
 
         /* ==========================================
-           手機響應式設計 (RWD) 
+           手機響應式設計 (RWD) - 完全覆蓋版
            ========================================== */
         @media (max-width: 768px) {
             header { padding: 15px 5%; }
-            
-            /* 顯示漢堡按鈕 */
             .menu-toggle { display: flex; }
 
-            /* 導覽列轉換為側邊彈出選單 */
+            /* 左側滑出選單：關鍵在 z-index 高於 Header */
             nav ul {
-                position: fixed; top: 0; right: -100%; width: 250px; height: 100vh;
-                background: #fff; flex-direction: column; align-items: flex-start;
-                padding: 100px 40px; transition: 0.4s ease-in-out;
-                box-shadow: -10px 0 20px rgba(0,0,0,0.1); z-index: 1001;
+                position: fixed; top: 0; left: -100%; 
+                width: 300px; height: 100vh;
+                background: var(--menu-dark); /* 深灰色背景 */
+                flex-direction: column; align-items: flex-start;
+                padding: 60px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 10px 0 30px rgba(0,0,0,0.5); 
+                z-index: 1500; /* 高於 Header 的 1000，確保覆蓋 Logo */
             }
 
-            nav ul.active { right: 0; } /* 點擊漢堡後滑入 */
+            nav ul.active { left: 0; } 
 
-            /* 手機版 Hero 文字縮小 */
-            .hero h1 { font-size: 2.2rem; }
-            .hero p { font-size: 1.1rem; }
+            .menu-header { display: block; } /* 側邊選單頂部的 MENU 字樣 */
 
-            .container { margin: 20px 5%; padding: 40px 20px; }
+            nav ul li { margin-bottom: 25px; }
+            nav ul li a { color: #fff; font-size: 18px; display: block; width: 100%; }
             
-            /* 漢堡按鈕動畫效果 */
+            /* 展開後，讓漢堡按鈕顏色變白（因為在深色背景上） */
+            .menu-toggle.is-active span { background-color: #0056b3; }
             .menu-toggle.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .menu-toggle.is-active span:nth-child(2) { opacity: 0; }
             .menu-toggle.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+            
+            .hero h1 { font-size: 2.2rem; }
+            .container { margin: 20px 5%; padding: 40px 20px; }
         }
     </style>
 </head>
@@ -79,18 +83,13 @@
     <header>
         <a href="index.html" class="logo">科源創新</a>
         <nav>
-            <button class="menu-toggle" id="mobile-menu" aria-label="Toggle navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
+            <button class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></button>
             <ul id="nav-list">
+                <div class="menu-header">MENU</div>
                 <li><a href="about.html" data-zh="關於我們" data-en="About Us">關於我們</a></li>
                 <li><a href="products.html" data-zh="產品介紹" data-en="Products">產品介紹</a></li>
                 <li><a href="contact.html" data-zh="聯絡我們" data-en="Contact">聯絡我們</a></li>
             </ul>
-            
             <button class="lang-switch" onclick="toggleLanguage()" id="langBtn">English</button>
         </nav>
     </header>
@@ -102,34 +101,29 @@
 
     <div class="container">
         <h2 data-zh="領先全球的 NVM IP 技術" data-en="Leading NVM IP">領先全球的 NVM IP 技術</h2>
-        <p data-zh="專注於研發具競爭力、高安全性與低功耗的半導體解決方案。" data-en="Focusing on high security and low power solutions.">
-            專注於研發具競爭力、高安全性與低功耗的半導體解決方案。
-        </p>
+        <p data-zh="提供高安全性、低功耗的嵌入式非揮發性記憶體解決方案。" data-en="Providing high-security NVM IP solutions.">提供高安全性、低功耗的嵌入式非揮發性記憶體解決方案。</p>
     </div>
 
-    <footer>
-        <span data-zh="© 2026 科源創新 版權所有" data-en="© 2026 Keyuan Innovation.">© 2026 科源創新 版權所有</span>
-    </footer>
+    <footer><span data-zh="© 2026 科源創新 版權所有" data-en="© 2026 Keyuan Innovation. All Rights Reserved.">© 2026 科源創新 版權所有</span></footer>
 
     <script>
-        // 語言切換邏輯
+        // 語言記憶與切換
         let currentLang = localStorage.getItem('preferredLang') || 'zh';
         function updateContent() {
             document.querySelectorAll('[data-zh]').forEach(el => el.textContent = el.getAttribute(`data-${currentLang}`));
             document.getElementById('langBtn').textContent = currentLang === 'zh' ? 'English' : '中文';
         }
         function toggleLanguage() { currentLang = currentLang === 'zh' ? 'en' : 'zh'; localStorage.setItem('preferredLang', currentLang); updateContent(); }
-
-        // 漢堡選單邏輯
+        
+        // 漢堡與側邊選單控制
         const menuToggle = document.getElementById('mobile-menu');
         const navList = document.getElementById('nav-list');
-
         menuToggle.addEventListener('click', () => {
             navList.classList.toggle('active');
             menuToggle.classList.toggle('is-active');
         });
 
-        // 點擊連結後自動收起選單
+        // 點擊連結後自動關閉選單
         document.querySelectorAll('#nav-list a').forEach(link => {
             link.addEventListener('click', () => {
                 navList.classList.remove('active');
