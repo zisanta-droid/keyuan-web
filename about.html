@@ -6,34 +6,53 @@
     <title>關於我們 | 科源創新 Keyuan Innovation</title>
     <style>
         :root { --brand-blue: #0056b3; --text-dark: #333; --light-gray: #f8f9fa; }
-        body { font-family: "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 0; background: #fff; }
+        body { font-family: "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 0; background: #fff; overflow-x: hidden; }
+        
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 24px; font-weight: 800; color: var(--brand-blue); text-decoration: none; }
+        .logo { font-size: 24px; font-weight: 800; color: var(--brand-blue); text-decoration: none; z-index: 1002; }
         nav { display: flex; align-items: center; gap: 30px; }
         nav ul { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
         nav ul li a { text-decoration: none; color: #333; font-weight: 600; font-size: 15px; }
-        .lang-switch { background: var(--brand-blue); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        
+        .lang-switch { background: var(--brand-blue); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; z-index: 1002; }
+
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 10px; z-index: 1002; }
+        .menu-toggle span { width: 25px; height: 3px; background-color: var(--brand-blue); transition: 0.3s; }
+
         .page-banner { background: linear-gradient(135deg, #001a33 0%, #003366 100%); color: white; padding: 100px 8%; }
         .page-banner h1 { font-size: 42px; margin: 0; letter-spacing: 2px; }
+
         .intro-section { padding: 80px 8%; max-width: 1000px; }
         .intro-section h2 { color: var(--brand-blue); font-size: 32px; border-bottom: 3px solid var(--brand-blue); display: inline-block; padding-bottom: 8px; margin-bottom: 30px; }
-        
+
         .value-block { padding: 90px 8%; display: flex; align-items: center; gap: 60px; }
-        .value-block:nth-child(even) { background: var(--light-gray); flex-direction: row-reverse; }
+        .value-block:nth-child(even) { flex-direction: row-reverse; background: var(--light-gray); }
         .value-text { flex: 1.2; }
         .value-text h3 { font-size: 30px; color: var(--brand-blue); margin-bottom: 25px; }
-        .value-placeholder { width: 100%; min-height: 120px; border-left: 4px solid #ddd; padding-left: 20px; display: flex; align-items: center; color: #999; font-style: italic; }
-        .value-img { flex: 1; height: 350px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #cbd5e0; font-weight: bold; }
+        .value-img { flex: 1; height: 350px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #cbd5e0; font-weight: bold; border-radius: 4px; }
 
-        footer { background: #101827; color: #94a3b8; padding: 50px 8% 30px; text-align: center; margin-top: 50px; }
+        footer { background: #101827; color: #94a3b8; padding: 50px 8% 30px; text-align: center; }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 5%; }
+            .menu-toggle { display: flex; }
+            nav ul { position: fixed; top: 0; right: -100%; width: 250px; height: 100vh; background: #fff; flex-direction: column; padding: 100px 40px; transition: 0.4s; box-shadow: -10px 0 20px rgba(0,0,0,0.1); z-index: 1001; }
+            nav ul.active { right: 0; }
+            .page-banner { padding: 60px 5%; }
+            .page-banner h1 { font-size: 28px; }
+            .value-block { flex-direction: column !important; padding: 40px 5%; gap: 30px; }
+            .value-img { width: 100%; height: 200px; }
+            .menu-toggle.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .menu-toggle.is-active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        }
     </style>
 </head>
 <body>
     <header>
         <a href="index.html" class="logo">科源創新</a>
         <nav>
-            <ul>
+            <button class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></button>
+            <ul id="nav-list">
                 <li><a href="about.html" style="color:var(--brand-blue)" data-zh="關於我們" data-en="About Us">關於我們</a></li>
                 <li><a href="products.html" data-zh="產品介紹" data-en="Products">產品介紹</a></li>
                 <li><a href="contact.html" data-zh="聯絡我們" data-en="Contact">聯絡我們</a></li>
@@ -42,42 +61,24 @@
         </nav>
     </header>
 
-    <section class="page-banner">
-        <h1 data-zh="關於科源" data-en="About Keyuan">關於科源</h1>
-    </section>
+    <section class="page-banner"><h1 data-zh="關於科源" data-en="About Keyuan">關於科源</h1></section>
 
     <div class="intro-section">
         <h2 data-zh="公司簡介" data-en="Company Profile">公司簡介</h2>
-        <p data-zh="[ 內容暫且為空 ]" data-en="[ Content to be filled ]">[ 內容暫且為空 ]</p>
+        <p data-zh="[ 內容正在準備中 ]" data-en="[ Content coming soon ]">[ 內容正在準備中 ]</p>
     </div>
 
     <section class="value-block">
-        <div class="value-text">
-            <h3 data-zh="經營理念" data-en="Philosophy">經營理念</h3>
-            <div class="value-placeholder" data-zh="[ 內容暫且為空 ]" data-en="[ To be filled ]">[ 內容暫且為空 ]</div>
-        </div>
+        <div class="value-text"><h3 data-zh="經營理念" data-en="Philosophy">經營理念</h3><p data-zh="[ 內容暫且為空 ]" data-en="[ To be filled ]">[ 內容暫且為空 ]</p></div>
         <div class="value-img">PHILOSOPHY</div>
     </section>
 
     <section class="value-block">
-        <div class="value-text">
-            <h3 data-zh="企業願景" data-en="Vision">企業願景</h3>
-            <div class="value-placeholder" data-zh="[ 內容暫且為空 ]" data-en="[ To be filled ]">[ 內容暫且為空 ]</div>
-        </div>
+        <div class="value-text"><h3 data-zh="企業願景" data-en="Vision">企業願景</h3><p data-zh="[ 內容暫且為空 ]" data-en="[ To be filled ]">[ 內容暫且為空 ]</p></div>
         <div class="value-img">VISION</div>
     </section>
 
-    <section class="value-block">
-        <div class="value-text">
-            <h3 data-zh="企業使命" data-en="Mission">企業使命</h3>
-            <div class="value-placeholder" data-zh="[ 內容暫且為空 ]" data-en="[ To be filled ]">[ 內容暫且為空 ]</div>
-        </div>
-        <div class="value-img">MISSION</div>
-    </section>
-
-    <footer>
-        <span data-zh="© 2026 科源創新 版權所有" data-en="© 2026 Keyuan Innovation. All Rights Reserved.">© 2026 科源創新 版權所有</span>
-    </footer>
+    <footer><span data-zh="© 2026 科源創新 版權所有" data-en="© 2026 Keyuan Innovation. All Rights Reserved.">© 2026 科源創新 版權所有</span></footer>
 
     <script>
         let currentLang = localStorage.getItem('preferredLang') || 'zh';
@@ -86,6 +87,9 @@
             document.getElementById('langBtn').textContent = currentLang === 'zh' ? 'English' : '中文';
         }
         function toggleLanguage() { currentLang = currentLang === 'zh' ? 'en' : 'zh'; localStorage.setItem('preferredLang', currentLang); updateContent(); }
+        const menuToggle = document.getElementById('mobile-menu');
+        const navList = document.getElementById('nav-list');
+        menuToggle.addEventListener('click', () => { navList.classList.toggle('active'); menuToggle.classList.toggle('is-active'); });
         window.onload = updateContent;
     </script>
 </body>
