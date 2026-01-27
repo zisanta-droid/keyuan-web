@@ -5,165 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>產品介紹 | 科源創新 Keyuan Innovation</title>
     <style>
-        :root { --brand-blue: #0056b3; --text-dark: #333; --light-gray: #f8f9fa; }
-        body { font-family: "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 0; color: var(--text-dark); background: #fff; }
-
-        /* Header 保持全站一致 */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 8%; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000;
-        }
-        .logo { font-size: 24px; font-weight: 800; color: var(--brand-blue); text-decoration: none; }
+        :root { --brand-blue: #0056b3; --text-dark: #333; }
+        body { font-family: "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 0; background: #fff; overflow-x: hidden; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 24px; font-weight: 800; color: var(--brand-blue); text-decoration: none; z-index: 1002; }
         nav { display: flex; align-items: center; gap: 30px; }
         nav ul { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
         nav ul li a { text-decoration: none; color: #333; font-weight: 600; font-size: 15px; }
-        nav ul li a.active { color: var(--brand-blue); }
+        .lang-switch { background: var(--brand-blue); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; z-index: 1002; }
 
-        .lang-switch { background: var(--brand-blue); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 10px; z-index: 1002; }
+        .menu-toggle span { width: 25px; height: 3px; background-color: var(--brand-blue); transition: 0.3s; }
 
-        /* Product Banner */
-        .page-banner {
-            background: linear-gradient(135deg, #002b5c 0%, #0056b3 100%);
-            color: white; padding: 100px 8%; text-align: left;
-        }
-        .page-banner h1 { font-size: 42px; margin: 0; letter-spacing: 2px; }
-        .breadcrumb { font-size: 13px; margin-bottom: 15px; color: #8bb8e1; }
-
-        /* 產品分類區塊 */
+        .page-banner { background: linear-gradient(135deg, #002b5c 0%, #0056b3 100%); color: white; padding: 100px 8%; }
         .product-section { padding: 80px 8%; }
-        .category-title {
-            font-size: 28px; color: var(--brand-blue); margin-bottom: 40px;
-            border-left: 5px solid var(--brand-blue); padding-left: 20px; font-weight: 700;
-        }
-
-        /* 產品網格佈局 */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .product-card {
-            background: #fff;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border-color: var(--brand-blue);
-        }
-
-        .product-img {
-            height: 200px;
-            background: #f0f4f8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            color: #cbd5e0;
-        }
-
-        .product-info { padding: 25px; flex-grow: 1; }
-        .product-info h3 { font-size: 20px; margin-bottom: 15px; color: #1a202c; }
-        .product-info p { font-size: 15px; color: #666; line-height: 1.6; margin-bottom: 20px; }
-
-        .learn-more {
-            font-weight: 700; color: var(--brand-blue); text-decoration: none;
-            display: flex; align-items: center; gap: 5px; font-size: 14px;
-        }
+        .category-title { font-size: 28px; color: var(--brand-blue); margin-bottom: 40px; border-left: 5px solid var(--brand-blue); padding-left: 20px; font-weight: 700; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        .product-card { border: 1px solid #eee; border-radius: 8px; padding: 25px; transition: 0.3s; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .product-icon { height: 150px; background: #f0f4f8; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #cbd5e0; }
 
         footer { background: #101827; color: #94a3b8; padding: 50px 8% 30px; text-align: center; }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 5%; }
+            .menu-toggle { display: flex; }
+            nav ul { position: fixed; top: 0; right: -100%; width: 250px; height: 100vh; background: #fff; flex-direction: column; padding: 100px 40px; transition: 0.4s; box-shadow: -10px 0 20px rgba(0,0,0,0.1); z-index: 1001; }
+            nav ul.active { right: 0; }
+            .product-grid { grid-template-columns: 1fr; }
+            .menu-toggle.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .menu-toggle.is-active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        }
     </style>
 </head>
 <body>
     <header>
         <a href="index.html" class="logo">科源創新</a>
         <nav>
-            <ul>
+            <button class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></button>
+            <ul id="nav-list">
                 <li><a href="about.html" data-zh="關於我們" data-en="About Us">關於我們</a></li>
-                <li><a href="products.html" data-zh="產品介紹" data-en="Products">產品介紹</a></li>
+                <li><a href="products.html" style="color:var(--brand-blue)" data-zh="產品介紹" data-en="Products">產品介紹</a></li>
                 <li><a href="contact.html" data-zh="聯絡我們" data-en="Contact">聯絡我們</a></li>
             </ul>
             <button class="lang-switch" onclick="toggleLanguage()" id="langBtn">English</button>
         </nav>
     </header>
 
-    <section class="page-banner">
-        <div class="breadcrumb" data-zh="產品介紹" data-en="PRODUCTS">PRODUCTS</div>
-        <h1 data-zh="科源產品解決方案" data-en="Keyuan Product Solutions">科源產品解決方案</h1>
-    </section>
+    <section class="page-banner"><h1 data-zh="產品解決方案" data-en="Product Solutions">產品解決方案</h1></section>
 
     <section class="product-section">
-        <h2 class="category-title" data-zh="OTP 解決方案" data-en="OTP Solutions">OTP 解決方案</h2>
+        <h2 class="category-title" data-zh="NVM 解決方案" data-en="NVM Solutions">NVM 解決方案</h2>
         <div class="product-grid">
             <div class="product-card">
-                <div class="product-img">OTP</div>
-                <div class="product-info">
-                    <h3 data-zh="科源 I-bit™ OTP IP" data-en="Keyuan I-bit™ OTP IP">科源 I-bit™ OTP IP</h3>
-                    <p data-zh="專為先進製程設計，提供極高的安全性與穩定的資料保留能力。" data-en="Designed for advanced processes, providing high security and stable data retention.">專為先進製程設計，提供極高的安全性與穩定的資料保留能力。</p>
-                    <a href="#" class="learn-more" data-zh="詳細規格 →" data-en="Specifications →">詳細規格 →</a>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-img">Low Power</div>
-                <div class="product-info">
-                    <h3 data-zh="低功耗 OTP 系列" data-en="Low Power OTP Series">低功耗 OTP 系列</h3>
-                    <p data-zh="針對 IoT 與穿戴式裝置優化，實現極致的靜態電流表現。" data-en="Optimized for IoT and wearables, achieving extreme standby current performance.">針對 IoT 與穿戴式裝置優化，實現極致的靜態電流表現。</p>
-                    <a href="#" class="learn-more" data-zh="詳細規格 →" data-en="Specifications →">詳細規格 →</a>
-                </div>
-            </div>
-        </div>
-
-        <h2 class="category-title" data-zh="MTP 解決方案" data-en="MTP Solutions">MTP 解決方案</h2>
-        <div class="product-grid">
-            <div class="product-card">
-                <div class="product-img">MTP</div>
-                <div class="product-info">
-                    <h3 data-zh="科源嵌入式 MTP IP" data-en="Keyuan Embedded MTP IP">科源嵌入式 MTP IP</h3>
-                    <p data-zh="支援多次抹寫，適用於參數儲存與韌體更新，具備高度製程通用性。" data-en="Supports multi-time programming, suitable for parameter storage and firmware updates.">支援多次抹寫，適用於參數儲存與韌體更新，具備高度製程通用性。</p>
-                    <a href="#" class="learn-more" data-zh="詳細規格 →" data-en="Specifications →">詳細規格 →</a>
-                </div>
-            </div>
-        </div>
-
-        <h2 class="category-title" data-zh="安全性 IP" data-en="Security IP">安全性 IP</h2>
-        <div class="product-grid">
-            <div class="product-card">
-                <div class="product-img">Security</div>
-                <div class="product-info">
-                    <h3 data-zh="硬體信任根 (Root of Trust)" data-en="Hardware Root of Trust">硬體信任根 (Root of Trust)</h3>
-                    <p data-zh="基於科源專利技術，為晶片提供不可篡改的身分標識與密鑰儲存。" data-en="Based on Keyuan's patent, providing immutable identity and key storage for chips.">基於科源專利技術，為晶片提供不可篡改的身分標識與密鑰儲存。</p>
-                    <a href="#" class="learn-more" data-zh="詳細規格 →" data-en="Specifications →">詳細規格 →</a>
-                </div>
+                <div class="product-icon">OTP</div>
+                <h3 data-zh="科源 I-bit™ OTP" data-en="Keyuan I-bit™ OTP">科源 I-bit™ OTP</h3>
+                <p data-zh="專利技術提供極致安全性。" data-en="Patented technology for security.">專利技術提供極致安全性。</p>
             </div>
         </div>
     </section>
 
-    <footer>
-        <span data-zh="© 2026 科源創新 版權所有" data-en="© 2026 Keyuan Innovation. All Rights Reserved.">© 2024 科源創新 版權所有</span>
-    </footer>
+    <footer><span data-zh="© 2026 科源創新 版權所有" data-en="© 2026 Keyuan Innovation. All Rights Reserved.">© 2026 科源創新 版權所有</span></footer>
 
     <script>
         let currentLang = localStorage.getItem('preferredLang') || 'zh';
         function updateContent() {
-            document.querySelectorAll('[data-zh]').forEach(el => {
-                el.textContent = el.getAttribute(`data-${currentLang}`);
-            });
-            const btn = document.getElementById('langBtn');
-            if(btn) btn.textContent = currentLang === 'zh' ? 'English' : '中文';
+            document.querySelectorAll('[data-zh]').forEach(el => el.textContent = el.getAttribute(`data-${currentLang}`));
+            document.getElementById('langBtn').textContent = currentLang === 'zh' ? 'English' : '中文';
         }
-        function toggleLanguage() {
-            currentLang = currentLang === 'zh' ? 'en' : 'zh';
-            localStorage.setItem('preferredLang', currentLang);
-            updateContent();
-        }
+        function toggleLanguage() { currentLang = currentLang === 'zh' ? 'en' : 'zh'; localStorage.setItem('preferredLang', currentLang); updateContent(); }
+        const menuToggle = document.getElementById('mobile-menu');
+        const navList = document.getElementById('nav-list');
+        menuToggle.addEventListener('click', () => { navList.classList.toggle('active'); menuToggle.classList.toggle('is-active'); });
         window.onload = updateContent;
     </script>
 </body>
