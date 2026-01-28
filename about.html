@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>聯絡我們 | 科源創新 Keyuan Innovation</title>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <title>關於我們 | 科源創新 Keyuan Innovation</title>
     <style>
         :root { --brand-blue: #0056b3; --text-dark: #1a1a1a; --bg-light: #f5f7fa; --menu-dark: #333; }
-        body { font-family: "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 0; background: #fff; overflow-x: hidden; }
+        body { font-family: "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 0; background: #fff; color: var(--text-dark); overflow-x: hidden; }
         
         /* --- Header --- */
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #fff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .logo { font-size: 24px; font-weight: 800; color: var(--brand-blue); text-decoration: none; }
+        
         nav { display: flex; align-items: center; gap: 30px; }
         nav ul { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
         nav ul li a { text-decoration: none; color: #333; font-weight: 600; font-size: 15px; }
@@ -20,36 +20,44 @@
         /* --- 漢堡按鈕 --- */
         .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 10px; z-index: 2000; transition: 0.3s; }
         .menu-toggle span { width: 25px; height: 3px; background-color: var(--brand-blue); transition: 0.3s; }
+        
+        /* --- 側邊選單頂部文字 --- */
         .menu-header { display: none; width: 100%; padding-bottom: 20px; margin-bottom: 30px; border-bottom: 1px solid #555; font-size: 22px; font-weight: 800; color: #fff; letter-spacing: 2px; }
 
-        /* --- 頁面內容 (背景圖設定) --- */
+        /* --- 頁面內容 (此部分已更新背景圖) --- */
         .page-banner { 
-            /* 疊加深色漸層，營造沉穩、專業的聯絡氛圍 */
-            background: linear-gradient(rgba(0, 26, 51, 0.6), rgba(0, 51, 102, 0.7)), 
-                        url('istockphoto-1169660398-1024x1024.png'); 
+            /* 使用 linear-gradient 疊加半透明黑色，確保文字清晰 */
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), 
+                        url('istockphoto-1356118511-1024x1024.png'); 
             background-size: cover; 
             background-position: center; 
             color: white; 
-            padding: 120px 8%; 
-            text-align: center;
+            padding: 120px 8%; /* 增加內距讓背景更顯眼 */
+            text-align: center; 
         }
-        .page-banner h1 { font-size: 3rem; font-weight: 800; text-shadow: 0 2px 15px rgba(0,0,0,0.4); margin: 0; }
+        .page-banner h1 { font-size: 3rem; font-weight: 800; margin: 0; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
 
-        .contact-container { max-width: 1200px; margin: 80px auto; padding: 0 5%; display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        .privacy-box { background: #f9fbff; padding: 20px; border: 1px solid #e6ecf5; margin-bottom: 25px; font-size: 14px; }
-        .submit-btn { background: var(--brand-blue); color: white; border: none; padding: 15px 40px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
-        .submit-btn:hover { background: #004494; }
-
+        .intro-section { max-width: 1200px; margin: 60px auto; padding: 0 8%; }
+        .value-block { padding: 80px 8%; display: flex; align-items: center; gap: 60px; max-width: 1200px; margin: 0 auto; }
+        .value-block:nth-child(even) { flex-direction: row-reverse; background: var(--bg-light); }
+        .value-text { flex: 1.2; }
+        .value-img { flex: 1; height: 300px; background: #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #94a3b8; }
+        
         footer { background: #101827; color: #94a3b8; padding: 40px 8%; text-align: center; }
 
-        /* --- RWD 修正 --- */
+        /* --- 手機響應式 (RWD) --- */
         @media (max-width: 768px) {
             header { padding: 15px 5%; }
             .menu-toggle { display: flex; }
-            nav ul { position: fixed; top: 0; left: -100%; width: 300px; height: 100vh; background: var(--menu-dark); flex-direction: column; align-items: flex-start; padding: 60px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 10px 0 30px rgba(0,0,0,0.5); z-index: 1500; }
+            
+            nav ul { 
+                position: fixed; top: 0; left: -100%; 
+                width: 300px; height: 100vh; 
+                background: var(--menu-dark); 
+                flex-direction: column; align-items: flex-start; 
+                padding: 60px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+                box-shadow: 10px 0 30px rgba(0,0,0,0.5); z-index: 1500; 
+            }
             nav ul.active { left: 0; }
             .menu-header { display: block; }
             nav ul li a { color: #fff; font-size: 18px; }
@@ -59,10 +67,11 @@
             .menu-toggle.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .menu-toggle.is-active span:nth-child(2) { opacity: 0; }
             .menu-toggle.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-            
+
             .page-banner { padding: 80px 5%; }
             .page-banner h1 { font-size: 2.2rem; }
-            .contact-container { grid-template-columns: 1fr; gap: 40px; margin: 40px auto; }
+            .value-block { flex-direction: column !important; padding: 40px 5%; text-align: center; }
+            .value-img { width: 100%; height: 200px; }
         }
     </style>
 </head>
@@ -72,44 +81,50 @@
         <nav>
             <button class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></button>
             <ul id="nav-list">
-                <div class="menu-header">MENU</div> 
-                <li><a href="about.html" data-zh="關於我們" data-en="About Us">關於我們</a></li>
+                <div class="menu-header">MENU</div>
+                <li><a href="about.html" style="color:var(--brand-blue)" data-zh="關於我們" data-en="About Us">關於我們</a></li>
                 <li><a href="products.html" data-zh="產品介紹" data-en="Products">產品介紹</a></li>
-                <li><a href="contact.html" style="color:var(--brand-blue)" data-zh="聯絡我們" data-en="Contact">聯絡我們</a></li>
+                <li><a href="contact.html" data-zh="聯絡我們" data-en="Contact">聯絡我們</a></li>
             </ul>
             <button class="lang-switch" onclick="toggleLanguage()" id="langBtn">English</button>
         </nav>
     </header>
 
     <section class="page-banner">
-        <h1 data-zh="與我們聯繫" data-en="Contact Us">與我們聯繫</h1>
+        <h1 data-zh="關於科源" data-en="About Keyuan">關於科源</h1>
     </section>
 
-    <div class="contact-container">
-        <div>
-            <h2 data-zh="諮詢表單" data-en="Inquiry Form">諮詢表單</h2>
-            <form>
-                <div class="form-group"><label data-zh="姓名" data-en="Name">姓名</label><input type="text" required></div>
-                <div class="form-group"><label data-zh="Email" data-en="Email">Email</label><input type="email" required></div>
-                <div class="form-group"><label data-zh="訊息" data-en="Message">訊息</label><textarea required style="min-height: 150px;"></textarea></div>
-                <div class="privacy-box">
-                    <label>
-                        <input type="checkbox" required> 
-                        <span data-zh="我已閱讀並同意科源創新隱私權聲明" data-en="I have read and agree to the Privacy Policy">我已閱讀並同意科源創新隱私權聲明</span>
-                    </label>
-                </div>
-                <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY" style="margin-bottom: 20px;"></div>
-                <button type="submit" class="submit-btn" data-zh="立即送出" data-en="Submit Now">立即送出</button>
-            </form>
-        </div>
-        
-        <div style="background:#f8f9fa; padding:40px; border-radius: 12px; height: fit-content; border: 1px solid #eee;">
-            <h3 data-zh="科源創新股份有限公司" data-en="Keyuan Innovation Co., Ltd.">科源創新股份有限公司</h3>
-            <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
-            <p style="margin-bottom: 10px;"><strong data-zh="服務信箱：" data-en="Email: ">服務信箱：</strong><br>sales@keyuan-innovation.com</p>
-            <p><strong data-zh="官方網站：" data-en="Website: ">官方網站：</strong><br>www.keyuan-innovation.com</p>
+    <div class="intro-section">
+        <div class="value-text">
+            <h2 data-zh="公司簡介" data-en="Company Profile">公司簡介</h2>
+            <p data-zh="科源創新致力於開發領先業界的嵌入式非揮發性記憶體 IP 解決方案，為全球半導體設計提供高效、安全且具成本效益的技術支援。" 
+               data-en="Keyuan Innovation is dedicated to developing industry-leading embedded non-volatile memory (NVM) IP solutions.">
+               科源創新致力於開發領先業界的嵌入式非揮發性記憶體 IP 解決方案。
+            </p>
         </div>
     </div>
+
+    <section class="value-block">
+        <div class="value-text">
+            <h3 data-zh="經營理念" data-en="Philosophy">經營理念</h3>
+            <p data-zh="誠信、創新、卓越。我們以技術為核心，與客戶共同創造無限可能。" 
+               data-en="Integrity, Innovation, and Excellence. We focus on technology to create possibilities with our clients.">
+               誠信、創新、卓越。我們以技術為核心，與客戶共同創造無限可能。
+            </p>
+        </div>
+        <div class="value-img">PHILOSOPHY</div>
+    </section>
+
+    <section class="value-block">
+        <div class="value-text">
+            <h3 data-zh="企業願景" data-en="Vision">企業願景</h3>
+            <p data-zh="成為全球半導體 IP 產業的技術領航者，推動智慧生活的發展。" 
+               data-en="To become a global leader in the semiconductor IP industry and drive the development of smart living.">
+               成為全球半導體 IP 產業的技術領航者，推動智慧生活的發展。
+            </p>
+        </div>
+        <div class="value-img">VISION</div>
+    </section>
 
     <footer><span data-zh="© 2026 科源創新 版權所有" data-en="© 2026 Keyuan Innovation. All Rights Reserved.">© 2026 科源創新 版權所有</span></footer>
 
@@ -120,9 +135,21 @@
             document.getElementById('langBtn').textContent = currentLang === 'zh' ? 'English' : '中文';
         }
         function toggleLanguage() { currentLang = currentLang === 'zh' ? 'en' : 'zh'; localStorage.setItem('preferredLang', currentLang); updateContent(); }
+        
         const menuToggle = document.getElementById('mobile-menu');
         const navList = document.getElementById('nav-list');
-        menuToggle.addEventListener('click', () => { navList.classList.toggle('active'); menuToggle.classList.toggle('is-active'); });
+        menuToggle.addEventListener('click', () => { 
+            navList.classList.toggle('active'); 
+            menuToggle.classList.toggle('is-active'); 
+        });
+
+        document.querySelectorAll('#nav-list a').forEach(link => {
+            link.addEventListener('click', () => {
+                navList.classList.remove('active');
+                menuToggle.classList.remove('is-active');
+            });
+        });
+
         window.onload = updateContent;
     </script>
 </body>
