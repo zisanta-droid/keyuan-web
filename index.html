@@ -12,7 +12,7 @@
         header { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 15px 8%; background: #fff; position: sticky; top: 0; 
-            z-index: 1000; /* Header 層級 */
+            z-index: 1000; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
         }
         .logo { font-size: 24px; font-weight: 800; color: var(--brand-blue); text-decoration: none; }
@@ -22,11 +22,12 @@
         nav ul li a { text-decoration: none; color: #333; font-weight: 600; font-size: 15px; }
         .lang-switch { background: var(--brand-blue); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-        /* --- 漢堡按鈕 (確保點擊時在最上層) --- */
+        /* --- 漢堡按鈕 --- */
         .menu-toggle { 
             display: none; flex-direction: column; gap: 5px; cursor: pointer; 
             background: none; border: none; padding: 10px; 
-            z-index: 2000; /* 高於側邊選單 */
+            z-index: 2000; 
+            transition: 0.3s;
         }
         .menu-toggle span { width: 25px; height: 3px; background-color: var(--brand-blue); transition: 0.3s; }
 
@@ -44,32 +45,39 @@
         footer { background: #101827; color: #94a3b8; padding: 40px 8%; text-align: center; }
 
         /* ==========================================
-           手機響應式設計 (RWD) - 完全覆蓋版
+           手機響應式設計 (RWD)
            ========================================== */
         @media (max-width: 768px) {
             header { padding: 15px 5%; }
             .menu-toggle { display: flex; }
 
-            /* 左側滑出選單：關鍵在 z-index 高於 Header */
             nav ul {
                 position: fixed; top: 0; left: -100%; 
                 width: 300px; height: 100vh;
-                background: var(--menu-dark); /* 深灰色背景 */
+                background: var(--menu-dark); 
                 flex-direction: column; align-items: flex-start;
                 padding: 60px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 box-shadow: 10px 0 30px rgba(0,0,0,0.5); 
-                z-index: 1500; /* 高於 Header 的 1000，確保覆蓋 Logo */
+                z-index: 1500; 
             }
 
             nav ul.active { left: 0; } 
-
-            .menu-header { display: block; } /* 側邊選單頂部的 MENU 字樣 */
+            .menu-header { display: block; }
 
             nav ul li { margin-bottom: 25px; }
             nav ul li a { color: #fff; font-size: 18px; display: block; width: 100%; }
             
-            /* 展開後，讓漢堡按鈕顏色變白（因為在深色背景上） */
-            .menu-toggle.is-active span { background-color: #0056b3; }
+            /* --- 重點修改：調整展開後的 X 按鈕位置與顏色 --- */
+            .menu-toggle.is-active {
+                position: fixed; /* 固定位置 */
+                left: 230px;     /* 移動到側邊選單右側內部 (300px - 寬度) */
+                top: 52px;       /* 垂直對齊 MENU 文字中心點 */
+            }
+
+            .menu-toggle.is-active span { 
+                background-color: #fff; /* 改為白色，與 MENU 顏色一致 */
+            }
+
             .menu-toggle.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .menu-toggle.is-active span:nth-child(2) { opacity: 0; }
             .menu-toggle.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
@@ -107,7 +115,6 @@
     <footer><span data-zh="© 2026 科源創新 版權所有" data-en="© 2026 Keyuan Innovation. All Rights Reserved.">© 2026 科源創新 版權所有</span></footer>
 
     <script>
-        // 語言記憶與切換
         let currentLang = localStorage.getItem('preferredLang') || 'zh';
         function updateContent() {
             document.querySelectorAll('[data-zh]').forEach(el => el.textContent = el.getAttribute(`data-${currentLang}`));
@@ -115,7 +122,6 @@
         }
         function toggleLanguage() { currentLang = currentLang === 'zh' ? 'en' : 'zh'; localStorage.setItem('preferredLang', currentLang); updateContent(); }
         
-        // 漢堡與側邊選單控制
         const menuToggle = document.getElementById('mobile-menu');
         const navList = document.getElementById('nav-list');
         menuToggle.addEventListener('click', () => {
@@ -123,7 +129,6 @@
             menuToggle.classList.toggle('is-active');
         });
 
-        // 點擊連結後自動關閉選單
         document.querySelectorAll('#nav-list a').forEach(link => {
             link.addEventListener('click', () => {
                 navList.classList.remove('active');
