@@ -8,6 +8,7 @@
         :root { --brand-blue: #0056b3; --text-dark: #1a1a1a; --bg-light: #f5f7fa; --menu-dark: #333; }
         body { font-family: "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 0; background: #fff; color: var(--text-dark); overflow-x: hidden; }
         
+        /* --- Header --- */
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #fff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .logo { font-size: 24px; font-weight: 800; color: var(--brand-blue); text-decoration: none; }
         
@@ -16,28 +17,59 @@
         nav ul li a { text-decoration: none; color: #333; font-weight: 600; font-size: 15px; }
         .lang-switch { background: var(--brand-blue); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-        .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 10px; z-index: 2000; }
+        /* --- 漢堡按鈕 --- */
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 10px; z-index: 2000; transition: 0.3s; }
         .menu-toggle span { width: 25px; height: 3px; background-color: var(--brand-blue); transition: 0.3s; }
+        
+        /* --- 側邊選單頂部文字 --- */
         .menu-header { display: none; width: 100%; padding-bottom: 20px; margin-bottom: 30px; border-bottom: 1px solid #555; font-size: 22px; font-weight: 800; color: #fff; letter-spacing: 2px; }
 
-        .page-banner { background: linear-gradient(135deg, #001a33 0%, #003366 100%); color: white; padding: 100px 8%; text-align: center; }
+        /* --- 頁面內容 (此部分已更新背景圖) --- */
+        .page-banner { 
+            /* 使用 linear-gradient 疊加半透明黑色，確保文字清晰 */
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), 
+                        url('istockphoto-1356118511-1024x1024.png'); 
+            background-size: cover; 
+            background-position: center; 
+            color: white; 
+            padding: 120px 8%; /* 增加內距讓背景更顯眼 */
+            text-align: center; 
+        }
+        .page-banner h1 { font-size: 3rem; font-weight: 800; margin: 0; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+
+        .intro-section { max-width: 1200px; margin: 60px auto; padding: 0 8%; }
         .value-block { padding: 80px 8%; display: flex; align-items: center; gap: 60px; max-width: 1200px; margin: 0 auto; }
         .value-block:nth-child(even) { flex-direction: row-reverse; background: var(--bg-light); }
         .value-text { flex: 1.2; }
         .value-img { flex: 1; height: 300px; background: #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #94a3b8; }
+        
         footer { background: #101827; color: #94a3b8; padding: 40px 8%; text-align: center; }
 
+        /* --- 手機響應式 (RWD) --- */
         @media (max-width: 768px) {
             header { padding: 15px 5%; }
             .menu-toggle { display: flex; }
-            nav ul { position: fixed; top: 0; left: -100%; width: 300px; height: 100vh; background: var(--menu-dark); flex-direction: column; align-items: flex-start; padding: 60px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 10px 0 30px rgba(0,0,0,0.5); z-index: 1500; }
+            
+            nav ul { 
+                position: fixed; top: 0; left: -100%; 
+                width: 300px; height: 100vh; 
+                background: var(--menu-dark); 
+                flex-direction: column; align-items: flex-start; 
+                padding: 60px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+                box-shadow: 10px 0 30px rgba(0,0,0,0.5); z-index: 1500; 
+            }
             nav ul.active { left: 0; }
             .menu-header { display: block; }
             nav ul li a { color: #fff; font-size: 18px; }
-            .menu-toggle.is-active span { background-color: var(--brand-blue); }
+
+            .menu-toggle.is-active { position: fixed; left: 230px; top: 52px; }
+            .menu-toggle.is-active span { background-color: #fff; }
             .menu-toggle.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .menu-toggle.is-active span:nth-child(2) { opacity: 0; }
             .menu-toggle.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+            .page-banner { padding: 80px 5%; }
+            .page-banner h1 { font-size: 2.2rem; }
             .value-block { flex-direction: column !important; padding: 40px 5%; text-align: center; }
             .value-img { width: 100%; height: 200px; }
         }
@@ -49,6 +81,7 @@
         <nav>
             <button class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></button>
             <ul id="nav-list">
+                <div class="menu-header">MENU</div>
                 <li><a href="about.html" style="color:var(--brand-blue)" data-zh="關於我們" data-en="About Us">關於我們</a></li>
                 <li><a href="products.html" data-zh="產品介紹" data-en="Products">產品介紹</a></li>
                 <li><a href="contact.html" data-zh="聯絡我們" data-en="Contact">聯絡我們</a></li>
@@ -57,20 +90,39 @@
         </nav>
     </header>
 
-    <section class="page-banner"><h1 data-zh="關於科源" data-en="About Keyuan">關於科源</h1></section>
+    <section class="page-banner">
+        <h1 data-zh="關於科源" data-en="About Keyuan">關於科源</h1>
+    </section>
 
     <div class="intro-section">
-        <div class="value-text"><h2 data-zh="公司簡介" data-en="Company Profile">公司簡介</h2>
-        <p data-zh="[ 內容正在準備中 ]" data-en="[ Content coming soon ]">[ 內容正在準備中 ]</p>
+        <div class="value-text">
+            <h2 data-zh="公司簡介" data-en="Company Profile">公司簡介</h2>
+            <p data-zh="科源創新致力於開發領先業界的嵌入式非揮發性記憶體 IP 解決方案，為全球半導體設計提供高效、安全且具成本效益的技術支援。" 
+               data-en="Keyuan Innovation is dedicated to developing industry-leading embedded non-volatile memory (NVM) IP solutions.">
+               科源創新致力於開發領先業界的嵌入式非揮發性記憶體 IP 解決方案。
+            </p>
+        </div>
     </div>
 
     <section class="value-block">
-        <div class="value-text"><h3 data-zh="經營理念" data-en="Philosophy">經營理念</h3><p data-zh="[ 內容暫且為空 ]" data-en="[ To be filled ]">[ 內容暫且為空 ]</p></div>
+        <div class="value-text">
+            <h3 data-zh="經營理念" data-en="Philosophy">經營理念</h3>
+            <p data-zh="誠信、創新、卓越。我們以技術為核心，與客戶共同創造無限可能。" 
+               data-en="Integrity, Innovation, and Excellence. We focus on technology to create possibilities with our clients.">
+               誠信、創新、卓越。我們以技術為核心，與客戶共同創造無限可能。
+            </p>
+        </div>
         <div class="value-img">PHILOSOPHY</div>
     </section>
 
     <section class="value-block">
-        <div class="value-text"><h3 data-zh="企業願景" data-en="Vision">企業願景</h3><p data-zh="[ 內容暫且為空 ]" data-en="[ To be filled ]">[ 內容暫且為空 ]</p></div>
+        <div class="value-text">
+            <h3 data-zh="企業願景" data-en="Vision">企業願景</h3>
+            <p data-zh="成為全球半導體 IP 產業的技術領航者，推動智慧生活的發展。" 
+               data-en="To become a global leader in the semiconductor IP industry and drive the development of smart living.">
+               成為全球半導體 IP 產業的技術領航者，推動智慧生活的發展。
+            </p>
+        </div>
         <div class="value-img">VISION</div>
     </section>
 
@@ -83,9 +135,21 @@
             document.getElementById('langBtn').textContent = currentLang === 'zh' ? 'English' : '中文';
         }
         function toggleLanguage() { currentLang = currentLang === 'zh' ? 'en' : 'zh'; localStorage.setItem('preferredLang', currentLang); updateContent(); }
+        
         const menuToggle = document.getElementById('mobile-menu');
         const navList = document.getElementById('nav-list');
-        menuToggle.addEventListener('click', () => { navList.classList.toggle('active'); menuToggle.classList.toggle('is-active'); });
+        menuToggle.addEventListener('click', () => { 
+            navList.classList.toggle('active'); 
+            menuToggle.classList.toggle('is-active'); 
+        });
+
+        document.querySelectorAll('#nav-list a').forEach(link => {
+            link.addEventListener('click', () => {
+                navList.classList.remove('active');
+                menuToggle.classList.remove('is-active');
+            });
+        });
+
         window.onload = updateContent;
     </script>
 </body>
