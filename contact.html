@@ -9,60 +9,60 @@
         :root { --brand-blue: #0056b3; --text-dark: #1a1a1a; --bg-light: #f5f7fa; --menu-dark: #333; }
         body { font-family: "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 0; background: #fff; overflow-x: hidden; }
         
-        /* --- 統一 Header & 導覽列 --- */
+        /* --- Header --- */
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #fff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .logo { font-size: 24px; font-weight: 800; color: var(--brand-blue); text-decoration: none; }
-        
         nav { display: flex; align-items: center; gap: 30px; }
         nav ul { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
         nav ul li a { text-decoration: none; color: #333; font-weight: 600; font-size: 15px; }
         .lang-switch { background: var(--brand-blue); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-        /* 漢堡按鈕 (高層級確保在選單上方) */
-        .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 10px; z-index: 2000; }
+        /* --- 漢堡按鈕 --- */
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 10px; z-index: 2000; transition: 0.3s; }
         .menu-toggle span { width: 25px; height: 3px; background-color: var(--brand-blue); transition: 0.3s; }
         .menu-header { display: none; width: 100%; padding-bottom: 20px; margin-bottom: 30px; border-bottom: 1px solid #555; font-size: 22px; font-weight: 800; color: #fff; letter-spacing: 2px; }
 
-        /* --- 頁面內容區塊 --- */
-        .page-banner { background: linear-gradient(135deg, #001a33 0%, #003366 100%); color: white; padding: 100px 8%; }
+        /* --- 頁面內容 (背景圖設定) --- */
+        .page-banner { 
+            /* 疊加深色漸層，營造沉穩、專業的聯絡氛圍 */
+            background: linear-gradient(rgba(0, 26, 51, 0.6), rgba(0, 51, 102, 0.7)), 
+                        url('istockphoto-1169660398-1024x1024.png'); 
+            background-size: cover; 
+            background-position: center; 
+            color: white; 
+            padding: 120px 8%; 
+            text-align: center;
+        }
+        .page-banner h1 { font-size: 3rem; font-weight: 800; text-shadow: 0 2px 15px rgba(0,0,0,0.4); margin: 0; }
+
         .contact-container { max-width: 1200px; margin: 80px auto; padding: 0 5%; display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; }
-        
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-dark); }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
-        .form-group textarea { height: 150px; resize: vertical; }
-        
-        .privacy-box { background: #f9fbff; padding: 20px; border: 1px solid #e6ecf5; margin-bottom: 25px; font-size: 14px; border-radius: 4px; }
-        .privacy-box label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
-        .privacy-box input { margin-top: 3px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .privacy-box { background: #f9fbff; padding: 20px; border: 1px solid #e6ecf5; margin-bottom: 25px; font-size: 14px; }
+        .submit-btn { background: var(--brand-blue); color: white; border: none; padding: 15px 40px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        .submit-btn:hover { background: #004494; }
 
-        .submit-btn { background: var(--brand-blue); color: white; border: none; padding: 16px 40px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; transition: 0.3s; }
-        .submit-btn:hover { background: #004494; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        footer { background: #101827; color: #94a3b8; padding: 40px 8%; text-align: center; }
 
-        .info-sidebar { background: #f8f9fa; padding: 40px; border-radius: 8px; border: 1px solid #eee; height: fit-content; }
-        .info-sidebar h3 { color: var(--brand-blue); margin-top: 0; }
-        .info-sidebar p { line-height: 1.8; color: #555; }
-
-        footer { background: #101827; color: #94a3b8; padding: 50px 8% 30px; text-align: center; }
-
-        /* --- 手機響應式修正 --- */
-        @media (max-width: 900px) {
+        /* --- RWD 修正 --- */
+        @media (max-width: 768px) {
             header { padding: 15px 5%; }
             .menu-toggle { display: flex; }
-            /* 左側滑出、深灰色選單 */
             nav ul { position: fixed; top: 0; left: -100%; width: 300px; height: 100vh; background: var(--menu-dark); flex-direction: column; align-items: flex-start; padding: 60px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 10px 0 30px rgba(0,0,0,0.5); z-index: 1500; }
             nav ul.active { left: 0; }
             .menu-header { display: block; }
             nav ul li a { color: #fff; font-size: 18px; }
-            
-            /* 修正：取消鈕變為品牌藍 */
-            .menu-toggle.is-active span { background-color: var(--brand-blue); }
+
+            .menu-toggle.is-active { position: fixed; left: 230px; top: 52px; }
+            .menu-toggle.is-active span { background-color: #fff; }
             .menu-toggle.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .menu-toggle.is-active span:nth-child(2) { opacity: 0; }
             .menu-toggle.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
+            
+            .page-banner { padding: 80px 5%; }
+            .page-banner h1 { font-size: 2.2rem; }
             .contact-container { grid-template-columns: 1fr; gap: 40px; margin: 40px auto; }
-            .page-banner { padding: 60px 5%; }
         }
     </style>
 </head>
@@ -72,6 +72,7 @@
         <nav>
             <button class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></button>
             <ul id="nav-list">
+                <div class="menu-header">MENU</div> 
                 <li><a href="about.html" data-zh="關於我們" data-en="About Us">關於我們</a></li>
                 <li><a href="products.html" data-zh="產品介紹" data-en="Products">產品介紹</a></li>
                 <li><a href="contact.html" style="color:var(--brand-blue)" data-zh="聯絡我們" data-en="Contact">聯絡我們</a></li>
@@ -80,7 +81,9 @@
         </nav>
     </header>
 
-    <section class="page-banner"><h1 data-zh="與我們聯繫" data-en="Contact Us">與我們聯繫</h1></section>
+    <section class="page-banner">
+        <h1 data-zh="與我們聯繫" data-en="Contact Us">與我們聯繫</h1>
+    </section>
 
     <div class="contact-container">
         <div>
@@ -88,15 +91,23 @@
             <form>
                 <div class="form-group"><label data-zh="姓名" data-en="Name">姓名</label><input type="text" required></div>
                 <div class="form-group"><label data-zh="Email" data-en="Email">Email</label><input type="email" required></div>
-                <div class="form-group"><label data-zh="訊息" data-en="Message">訊息</label><textarea required></textarea></div>
-                <div class="privacy-box"><label><input type="checkbox" required> <span data-zh="同意科源創新隱私權聲明" data-en="Agree to Privacy Policy">同意科源創新隱私權聲明</span></label></div>
-                <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
-                <button type="submit" class="submit-btn" data-zh="送出" data-en="Submit">送出</button>
+                <div class="form-group"><label data-zh="訊息" data-en="Message">訊息</label><textarea required style="min-height: 150px;"></textarea></div>
+                <div class="privacy-box">
+                    <label>
+                        <input type="checkbox" required> 
+                        <span data-zh="我已閱讀並同意科源創新隱私權聲明" data-en="I have read and agree to the Privacy Policy">我已閱讀並同意科源創新隱私權聲明</span>
+                    </label>
+                </div>
+                <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY" style="margin-bottom: 20px;"></div>
+                <button type="submit" class="submit-btn" data-zh="立即送出" data-en="Submit Now">立即送出</button>
             </form>
         </div>
-        <div style="background:#f8f9fa; padding:40px; border-radius: 8px;">
-            <h3 data-zh="科源創新股份有限公司" data-en="Keyuan Innovation">科源創新股份有限公司</h3>
-            <p>Email: sales@keyuan-innovation.com</p>
+        
+        <div style="background:#f8f9fa; padding:40px; border-radius: 12px; height: fit-content; border: 1px solid #eee;">
+            <h3 data-zh="科源創新股份有限公司" data-en="Keyuan Innovation Co., Ltd.">科源創新股份有限公司</h3>
+            <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
+            <p style="margin-bottom: 10px;"><strong data-zh="服務信箱：" data-en="Email: ">服務信箱：</strong><br>sales@keyuan-innovation.com</p>
+            <p><strong data-zh="官方網站：" data-en="Website: ">官方網站：</strong><br>www.keyuan-innovation.com</p>
         </div>
     </div>
 
