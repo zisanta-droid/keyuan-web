@@ -26,11 +26,7 @@
         .page-banner { 
             background: linear-gradient(rgba(0, 26, 51, 0.6), rgba(0, 51, 102, 0.7)), 
                         url('istockphoto-1169660398-1024x1024.png'); 
-            background-size: cover; 
-            background-position: center; 
-            color: white; 
-            padding: 120px 8%; 
-            text-align: center;
+            background-size: cover; background-position: center; color: white; padding: 120px 8%; text-align: center;
         }
         .page-banner h1 { font-size: 3rem; font-weight: 800; text-shadow: 0 2px 15px rgba(0,0,0,0.4); margin: 0; }
 
@@ -84,22 +80,22 @@
     <div class="contact-container">
         <div>
             <h2 data-zh="諮詢表單" data-en="Inquiry Form">諮詢表單</h2>
-            <form>
+            <form id="contact-form">
                 <div class="form-group">
                     <label data-zh="姓名" data-en="Name">姓名</label>
-                    <input type="text" required data-placeholder-zh="請輸入您的姓名" data-placeholder-en="Please enter your name">
+                    <input type="text" name="name" required data-placeholder-zh="請輸入您的姓名" data-placeholder-en="Please enter your name">
                 </div>
                 <div class="form-group">
                     <label data-zh="Email" data-en="Email">Email</label>
-                    <input type="email" required data-placeholder-zh="請輸入您的電子郵件" data-placeholder-en="Please enter your email">
+                    <input type="email" name="email" required data-placeholder-zh="請輸入您的電子郵件" data-placeholder-en="Please enter your email">
                 </div>
                 <div class="form-group">
                     <label data-zh="訊息" data-en="Message">訊息</label>
-                    <textarea required style="min-height: 150px;" data-placeholder-zh="請描述您的需求" data-placeholder-en="Please describe your needs"></textarea>
+                    <textarea name="message" required style="min-height: 150px;" data-placeholder-zh="請描述您的需求" data-placeholder-en="Please describe your needs"></textarea>
                 </div>
                 <div class="privacy-box">
                     <label>
-                        <input type="checkbox" required> 
+                        <input type="checkbox" name="privacy" required> 
                         <span data-zh="我已閱讀並同意科源創新隱私權聲明" data-en="I have read and agree to the Privacy Policy">我已閱讀並同意科源創新隱私權聲明</span>
                     </label>
                 </div>
@@ -124,19 +120,66 @@
     <script>
         let currentLang = localStorage.getItem('preferredLang') || 'zh';
 
+        // 語系對應的驗證提示字
+        const validationMsgs = {
+            zh: {
+                required: "請填寫此欄位。",
+                email: "請輸入有效的電子郵件地址。",
+                checkbox: "請勾選此項目以繼續。"
+            },
+            en: {
+                required: "Please fill out this field.",
+                email: "Please enter a valid email address.",
+                checkbox: "Please check this box to proceed."
+            }
+        };
+
         function updateContent() {
             // 1. 更新一般文字內容
             document.querySelectorAll('[data-zh]').forEach(el => {
                 el.textContent = el.getAttribute(`data-${currentLang}`);
             });
 
-            // 2. 修正：更新表單提示字 (Placeholder)
+            // 2. 更新表單提示字 (Placeholder)
             document.querySelectorAll('[data-placeholder-zh]').forEach(el => {
                 el.placeholder = el.getAttribute(`data-placeholder-${currentLang}`);
             });
 
             // 3. 更新按鈕文字
             document.getElementById('langBtn').textContent = currentLang === 'zh' ? 'English' : '中文';
+
+            // 4. 重置表單驗證提示語系
+            applyValidationMessages();
+        }
+
+        function applyValidationMessages() {
+            const form = document.getElementById('contact-form');
+            const elements = form.querySelectorAll('input, textarea');
+            const msgs = validationMsgs[currentLang];
+
+            elements.forEach(el => {
+                // 清除之前的自定義訊息
+                el.setCustomValidity("");
+
+                // 監聽 invalid 事件（當點擊立即送出且內容不完整時觸發）
+                el.oninvalid = function(e) {
+                    e.target.setCustomValidity(""); // 先重置
+                    if (!e.target.validity.valid) {
+                        if (e.target.type === "checkbox") {
+                            e.target.setCustomValidity(msgs.checkbox);
+                        } else if (e.target.type === "email" && e.target.value !== "") {
+                            e.target.setCustomValidity(msgs.email);
+                        } else {
+                            e.target.setCustomValidity(msgs.required);
+                        }
+                    }
+                };
+
+                // 當使用者開始輸入時，必須清除 CustomValidity，否則表單會一直認為是 invalid 無法送出
+                el.oninput = function(e) {
+                    e.target.setCustomValidity("");
+                };
+            });
         }
 
         function toggleLanguage() { 
