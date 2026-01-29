@@ -22,9 +22,8 @@
         .menu-toggle span { width: 25px; height: 3px; background-color: var(--brand-blue); transition: 0.3s; }
         .menu-header { display: none; width: 100%; padding-bottom: 20px; margin-bottom: 30px; border-bottom: 1px solid #555; font-size: 22px; font-weight: 800; color: #fff; letter-spacing: 2px; }
 
-        /* --- 頁面內容 (背景圖設定) --- */
+        /* --- 頁面內容 --- */
         .page-banner { 
-            /* 疊加深色漸層，營造沉穩、專業的聯絡氛圍 */
             background: linear-gradient(rgba(0, 26, 51, 0.6), rgba(0, 51, 102, 0.7)), 
                         url('istockphoto-1169660398-1024x1024.png'); 
             background-size: cover; 
@@ -45,7 +44,6 @@
 
         footer { background: #101827; color: #94a3b8; padding: 40px 8%; text-align: center; }
 
-        /* --- RWD 修正 --- */
         @media (max-width: 768px) {
             header { padding: 15px 5%; }
             .menu-toggle { display: flex; }
@@ -53,13 +51,11 @@
             nav ul.active { left: 0; }
             .menu-header { display: block; }
             nav ul li a { color: #fff; font-size: 18px; }
-
             .menu-toggle.is-active { position: fixed; left: 230px; top: 52px; }
             .menu-toggle.is-active span { background-color: #fff; }
             .menu-toggle.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .menu-toggle.is-active span:nth-child(2) { opacity: 0; }
             .menu-toggle.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-            
             .page-banner { padding: 80px 5%; }
             .page-banner h1 { font-size: 2.2rem; }
             .contact-container { grid-template-columns: 1fr; gap: 40px; margin: 40px auto; }
@@ -68,11 +64,11 @@
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo">科源創新</a>
+        <a href="index.html" class="logo" data-zh="科源創新" data-en="Keyuan Innovation">科源創新</a>
         <nav>
             <button class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></button>
             <ul id="nav-list">
-                <div class="menu-header">MENU</div> 
+                <div class="menu-header" data-zh="選單" data-en="MENU">選單</div> 
                 <li><a href="about.html" data-zh="關於我們" data-en="About Us">關於我們</a></li>
                 <li><a href="products.html" data-zh="產品介紹" data-en="Products">產品介紹</a></li>
                 <li><a href="contact.html" style="color:var(--brand-blue)" data-zh="聯絡我們" data-en="Contact">聯絡我們</a></li>
@@ -89,16 +85,28 @@
         <div>
             <h2 data-zh="諮詢表單" data-en="Inquiry Form">諮詢表單</h2>
             <form>
-                <div class="form-group"><label data-zh="姓名" data-en="Name">姓名</label><input type="text" required></div>
-                <div class="form-group"><label data-zh="Email" data-en="Email">Email</label><input type="email" required></div>
-                <div class="form-group"><label data-zh="訊息" data-en="Message">訊息</label><textarea required style="min-height: 150px;"></textarea></div>
+                <div class="form-group">
+                    <label data-zh="姓名" data-en="Name">姓名</label>
+                    <input type="text" required data-placeholder-zh="請輸入您的姓名" data-placeholder-en="Please enter your name">
+                </div>
+                <div class="form-group">
+                    <label data-zh="Email" data-en="Email">Email</label>
+                    <input type="email" required data-placeholder-zh="請輸入您的電子郵件" data-placeholder-en="Please enter your email">
+                </div>
+                <div class="form-group">
+                    <label data-zh="訊息" data-en="Message">訊息</label>
+                    <textarea required style="min-height: 150px;" data-placeholder-zh="請描述您的需求" data-placeholder-en="Please describe your needs"></textarea>
+                </div>
                 <div class="privacy-box">
                     <label>
                         <input type="checkbox" required> 
                         <span data-zh="我已閱讀並同意科源創新隱私權聲明" data-en="I have read and agree to the Privacy Policy">我已閱讀並同意科源創新隱私權聲明</span>
                     </label>
                 </div>
+                
+                <p style="font-size: 14px; margin-bottom: 10px; color: #666;" data-zh="請完成下方安全驗證：" data-en="Please complete the security verification:">請完成下方安全驗證：</p>
                 <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY" style="margin-bottom: 20px;"></div>
+                
                 <button type="submit" class="submit-btn" data-zh="立即送出" data-en="Submit Now">立即送出</button>
             </form>
         </div>
@@ -115,14 +123,35 @@
 
     <script>
         let currentLang = localStorage.getItem('preferredLang') || 'zh';
+
         function updateContent() {
-            document.querySelectorAll('[data-zh]').forEach(el => el.textContent = el.getAttribute(`data-${currentLang}`));
+            // 1. 更新一般文字內容
+            document.querySelectorAll('[data-zh]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${currentLang}`);
+            });
+
+            // 2. 修正：更新表單提示字 (Placeholder)
+            document.querySelectorAll('[data-placeholder-zh]').forEach(el => {
+                el.placeholder = el.getAttribute(`data-placeholder-${currentLang}`);
+            });
+
+            // 3. 更新按鈕文字
             document.getElementById('langBtn').textContent = currentLang === 'zh' ? 'English' : '中文';
         }
-        function toggleLanguage() { currentLang = currentLang === 'zh' ? 'en' : 'zh'; localStorage.setItem('preferredLang', currentLang); updateContent(); }
+
+        function toggleLanguage() { 
+            currentLang = currentLang === 'zh' ? 'en' : 'zh'; 
+            localStorage.setItem('preferredLang', currentLang); 
+            updateContent(); 
+        }
+
         const menuToggle = document.getElementById('mobile-menu');
         const navList = document.getElementById('nav-list');
-        menuToggle.addEventListener('click', () => { navList.classList.toggle('active'); menuToggle.classList.toggle('is-active'); });
+        menuToggle.addEventListener('click', () => { 
+            navList.classList.toggle('active'); 
+            menuToggle.classList.toggle('is-active'); 
+        });
+
         window.onload = updateContent;
     </script>
 </body>
