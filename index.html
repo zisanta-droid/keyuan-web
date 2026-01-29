@@ -44,13 +44,10 @@
         .container { max-width: 1100px; margin: -40px auto 80px; padding: 60px 40px; background: #fff; border-radius: 8px; box-shadow: 0 15px 50px rgba(0,0,0,0.1); text-align: center; }
         footer { background: #101827; color: #94a3b8; padding: 40px 8%; text-align: center; }
 
-        /* ==========================================
-           手機響應式設計 (RWD)
-           ========================================== */
+        /* --- RWD --- */
         @media (max-width: 768px) {
             header { padding: 15px 5%; }
             .menu-toggle { display: flex; }
-
             nav ul {
                 position: fixed; top: 0; left: -100%; 
                 width: 300px; height: 100vh;
@@ -60,24 +57,15 @@
                 box-shadow: 10px 0 30px rgba(0,0,0,0.5); 
                 z-index: 1500; 
             }
-
             nav ul.active { left: 0; } 
             .menu-header { display: block; }
-
             nav ul li { margin-bottom: 25px; }
             nav ul li a { color: #fff; font-size: 18px; display: block; width: 100%; }
             
-            /* --- 重點修改：調整展開後的 X 按鈕位置與顏色 --- */
             .menu-toggle.is-active {
-                position: fixed; /* 固定位置 */
-                left: 230px;     /* 移動到側邊選單右側內部 (300px - 寬度) */
-                top: 52px;       /* 垂直對齊 MENU 文字中心點 */
+                position: fixed; left: 230px; top: 52px;
             }
-
-            .menu-toggle.is-active span { 
-                background-color: #fff; /* 改為白色，與 MENU 顏色一致 */
-            }
-
+            .menu-toggle.is-active span { background-color: #fff; }
             .menu-toggle.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .menu-toggle.is-active span:nth-child(2) { opacity: 0; }
             .menu-toggle.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
@@ -89,11 +77,11 @@
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo">科源創新</a>
+        <a href="index.html" class="logo" data-zh="科源創新" data-en="Keyuan Innovation">科源創新</a>
         <nav>
             <button class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></button>
             <ul id="nav-list">
-                <div class="menu-header">MENU</div>
+                <div class="menu-header" data-zh="選單" data-en="MENU">選單</div>
                 <li><a href="about.html" data-zh="關於我們" data-en="About Us">關於我們</a></li>
                 <li><a href="products.html" data-zh="產品介紹" data-en="Products">產品介紹</a></li>
                 <li><a href="contact.html" data-zh="聯絡我們" data-en="Contact">聯絡我們</a></li>
@@ -116,11 +104,20 @@
 
     <script>
         let currentLang = localStorage.getItem('preferredLang') || 'zh';
+        
         function updateContent() {
-            document.querySelectorAll('[data-zh]').forEach(el => el.textContent = el.getAttribute(`data-${currentLang}`));
+            // 自動尋找所有帶有 data-zh 的元素並替換文字
+            document.querySelectorAll('[data-zh]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${currentLang}`);
+            });
             document.getElementById('langBtn').textContent = currentLang === 'zh' ? 'English' : '中文';
         }
-        function toggleLanguage() { currentLang = currentLang === 'zh' ? 'en' : 'zh'; localStorage.setItem('preferredLang', currentLang); updateContent(); }
+
+        function toggleLanguage() { 
+            currentLang = currentLang === 'zh' ? 'en' : 'zh'; 
+            localStorage.setItem('preferredLang', currentLang); 
+            updateContent(); 
+        }
         
         const menuToggle = document.getElementById('mobile-menu');
         const navList = document.getElementById('nav-list');
