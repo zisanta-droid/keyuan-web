@@ -14,7 +14,12 @@
         nav { display: flex; align-items: center; gap: 30px; }
         nav ul { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
         nav ul li a { text-decoration: none; color: #333; font-weight: 600; font-size: 15px; }
+        
         .lang-switch { background: var(--brand-blue); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+        /* 選單內的手機版語系按鈕 (預設隱藏) */
+        .lang-switch-mobile { display: none; }
+
 
         /* --- 漢堡按鈕 --- */
         .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 10px; z-index: 2000; transition: 0.3s; }
@@ -45,24 +50,58 @@
         
         footer { background: #101827; color: #94a3b8; padding: 40px 8%; text-align: center; }
 
-        /* --- RWD 修正 --- */
+        /* --- RWD --- */
         @media (max-width: 768px) {
             header { padding: 15px 5%; }
             .menu-toggle { display: flex; }
-            nav ul { position: fixed; top: 0; left: -100%; width: 300px; height: 100vh; background: var(--menu-dark); flex-direction: column; align-items: flex-start; padding: 60px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 10px 0 30px rgba(0,0,0,0.5); z-index: 1500; }
-            nav ul.active { left: 0; }
-            .menu-header { display: block; }
-            nav ul li a { color: #fff; font-size: 18px; }
+            .lang-switch { display: none; }
 
-            .menu-toggle.is-active { position: fixed; left: 230px; top: 52px; }
+            nav ul {
+                position: fixed; top: 0; 
+                left: -100%; /* 確保完全隱藏 */
+                width: 300px; height: 100vh;
+                background: var(--menu-dark); 
+                flex-direction: column; align-items: flex-start;
+                padding: 60px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 10px 0 30px rgba(0,0,0,0.5); 
+                z-index: 1500; 
+                box-sizing: border-box; /* 防止 padding 撐開 */
+            }
+            nav ul.active { left: 0; } 
+            .menu-header { display: block; }
+            nav ul li { margin-bottom: 25px; }
+            nav ul li a { color: #fff; font-size: 18px; display: block; width: 100%; }
+            
+            /* 手機版選單內的語言切換 (圖示參考 Inpsytech) */
+            .lang-switch-mobile {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                color: #fff;
+                padding: 15px 0;
+                cursor: pointer;
+                margin-top: 10px;
+                border-top: 1px solid #555;
+                width: 100%;
+                font-weight: 600;
+                font-size: 18px;
+            }
+            .lang-switch-mobile svg { 
+                width: 24px; height: 24px; 
+                fill: none; stroke: currentColor; 
+                stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; 
+            }
+
+            .menu-toggle.is-active {
+                position: fixed; left: 230px; top: 52px;
+            }
             .menu-toggle.is-active span { background-color: #fff; }
             .menu-toggle.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .menu-toggle.is-active span:nth-child(2) { opacity: 0; }
             .menu-toggle.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-            .page-banner { padding: 80px 5%; }
-            .page-banner h1 { font-size: 2.2rem; }
-            .product-grid { grid-template-columns: 1fr; padding: 0 5% 40px; }
+            
+            .hero h1 { font-size: 2.2rem; }
+            .container { margin: 20px 5%; padding: 40px 20px; }
         }
     </style>
 </head>
@@ -72,10 +111,19 @@
         <nav>
             <button class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></button>
             <ul id="nav-list">
-                <div class="menu-header" data-zh="選單" data-en="MENU">選單</div> 
+                <div class="menu-header" data-zh="選單" data-en="MENU">選單</div>
                 <li><a href="about.html" data-zh="關於我們" data-en="About Us">關於我們</a></li>
-                <li><a href="products.html" style="color:var(--brand-blue)" data-zh="產品介紹" data-en="Products">產品介紹</a></li>
+                <li><a href="products.html" data-zh="產品介紹" data-en="Products">產品介紹</a></li>
                 <li><a href="contact.html" data-zh="聯絡我們" data-en="Contact">聯絡我們</a></li>
+                
+                <div class="lang-switch-mobile" onclick="toggleLanguage()">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                    <span id="mobileLangBtn">English</span>
+                </div>
             </ul>
             <button class="lang-switch" onclick="toggleLanguage()" id="langBtn">English</button>
         </nav>
