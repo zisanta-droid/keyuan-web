@@ -9,13 +9,19 @@
         :root { --brand-blue: #0056b3; --text-dark: #1a1a1a; --bg-light: #f5f7fa; --menu-dark: #333; }
         body { font-family: "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 0; background: #fff; overflow-x: hidden; }
         
-        /* --- Header --- */
+        /* --- Header (完全還原原始樣式) --- */
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #fff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .logo { font-size: 24px; font-weight: 800; color: var(--brand-blue); text-decoration: none; }
         nav { display: flex; align-items: center; gap: 30px; }
         nav ul { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
         nav ul li a { text-decoration: none; color: #333; font-weight: 600; font-size: 15px; }
+        
+         /* 桌機版語系按鈕 (還原) */
         .lang-switch { background: var(--brand-blue); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+        /* 手機版選單內的語言切換 (隱藏於桌機) */
+        .lang-switch-mobile { display: none; }
+
 
         /* --- 漢堡按鈕 --- */
         .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 10px; z-index: 2000; transition: 0.3s; }
@@ -40,20 +46,56 @@
 
         footer { background: #101827; color: #94a3b8; padding: 40px 8%; text-align: center; }
 
+        /* --- 手機響應式修正 --- */
         @media (max-width: 768px) {
             header { padding: 15px 5%; }
             .menu-toggle { display: flex; }
-            nav ul { position: fixed; top: 0; left: -100%; width: 300px; height: 100vh; background: var(--menu-dark); flex-direction: column; align-items: flex-start; padding: 60px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 10px 0 30px rgba(0,0,0,0.5); z-index: 1500; }
-            nav ul.active { left: 0; }
+            .lang-switch { display: none; }
+
+            nav ul {
+                position: fixed; top: 0; 
+                left: -100%; /* 完全隱藏 */
+                width: 300px; height: 100vh;
+                background: var(--menu-dark); 
+                flex-direction: column; align-items: flex-start;
+                padding: 60px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 10px 0 30px rgba(0,0,0,0.5); 
+                z-index: 1500; 
+                box-sizing: border-box;
+            }
+            nav ul.active { left: 0; } 
             .menu-header { display: block; }
-            nav ul li a { color: #fff; font-size: 18px; }
-            .menu-toggle.is-active { position: fixed; left: 230px; top: 52px; }
+            nav ul li { margin-bottom: 25px; }
+            nav ul li a { color: #fff; font-size: 18px; display: block; width: 100%; }
+            
+            /* 手機版選單內的語系切換樣式 */
+            .lang-switch-mobile {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                color: #fff;
+                padding: 15px 0;
+                cursor: pointer;
+                margin-top: 10px;
+                border-top: 1px solid #555;
+                width: 100%;
+                font-weight: 600;
+                font-size: 18px;
+            }
+            .lang-switch-mobile svg { 
+                width: 24px; height: 24px; 
+                fill: none; stroke: currentColor; 
+                stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; 
+            }
+
+            .menu-toggle.is-active {
+                position: fixed; left: 230px; top: 52px;
+            }
             .menu-toggle.is-active span { background-color: #fff; }
             .menu-toggle.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .menu-toggle.is-active span:nth-child(2) { opacity: 0; }
             .menu-toggle.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-            .page-banner { padding: 80px 5%; }
-            .page-banner h1 { font-size: 2.2rem; }
+
             .contact-container { grid-template-columns: 1fr; gap: 40px; margin: 40px auto; }
         }
     </style>
@@ -67,7 +109,16 @@
                 <div class="menu-header" data-zh="選單" data-en="MENU">選單</div> 
                 <li><a href="about.html" data-zh="關於我們" data-en="About Us">關於我們</a></li>
                 <li><a href="products.html" data-zh="產品介紹" data-en="Products">產品介紹</a></li>
-                <li><a href="contact.html" style="color:var(--brand-blue)" data-zh="聯絡我們" data-en="Contact">聯絡我們</a></li>
+                <li><a href="contact.html" data-zh="聯絡我們" data-en="Contact">聯絡我們</a></li>
+                
+                <div class="lang-switch-mobile" onclick="toggleLanguage()">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                    <span id="mobileLangBtn">English</span>
+                </div>
             </ul>
             <button class="lang-switch" onclick="toggleLanguage()" id="langBtn">English</button>
         </nav>
@@ -120,7 +171,6 @@
     <script>
         let currentLang = localStorage.getItem('preferredLang') || 'zh';
 
-        // 語系對應的驗證提示字
         const validationMsgs = {
             zh: {
                 required: "請填寫此欄位。",
@@ -135,20 +185,18 @@
         };
 
         function updateContent() {
-            // 1. 更新一般文字內容
             document.querySelectorAll('[data-zh]').forEach(el => {
                 el.textContent = el.getAttribute(`data-${currentLang}`);
             });
 
-            // 2. 更新表單提示字 (Placeholder)
             document.querySelectorAll('[data-placeholder-zh]').forEach(el => {
                 el.placeholder = el.getAttribute(`data-placeholder-${currentLang}`);
             });
 
-            // 3. 更新按鈕文字
-            document.getElementById('langBtn').textContent = currentLang === 'zh' ? 'English' : '中文';
+            const langText = currentLang === 'zh' ? 'English' : '中文';
+            document.getElementById('langBtn').textContent = langText;
+            document.getElementById('mobileLangBtn').textContent = langText;
 
-            // 4. 重置表單驗證提示語系
             applyValidationMessages();
         }
 
@@ -158,12 +206,9 @@
             const msgs = validationMsgs[currentLang];
 
             elements.forEach(el => {
-                // 清除之前的自定義訊息
                 el.setCustomValidity("");
-
-                // 監聽 invalid 事件（當點擊立即送出且內容不完整時觸發）
                 el.oninvalid = function(e) {
-                    e.target.setCustomValidity(""); // 先重置
+                    e.target.setCustomValidity(""); 
                     if (!e.target.validity.valid) {
                         if (e.target.type === "checkbox") {
                             e.target.setCustomValidity(msgs.checkbox);
@@ -174,11 +219,7 @@
                         }
                     }
                 };
-
-                // 當使用者開始輸入時，必須清除 CustomValidity，否則表單會一直認為是 invalid 無法送出
-                el.oninput = function(e) {
-                    e.target.setCustomValidity("");
-                };
+                el.oninput = function(e) { e.target.setCustomValidity(""); };
             });
         }
 
